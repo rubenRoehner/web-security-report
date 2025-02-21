@@ -2,10 +2,29 @@
 \usepackage[x11names]{xcolor}
 
 % easy code typesetting
-\usepackage{minted}
+\usepackage[newfloat]{minted}
+\usepackage{xcolor}    % For color definitions
+
+
+% Define custom colors
+\definecolor{bggray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{frameblue}{rgb}{0.2, 0.4, 0.6}
+
+% Set global minted style
+\setminted{
+    frame=single,
+    framesep=3mm,
+    bgcolor=bggray,
+    rulecolor=frameblue,
+    fontsize=\footnotesize,
+    breaklines=true,
+    baselinestretch=1.2
+}
+
+\usemintedstyle{friendly}
 
 % get rid of warnings
-\usepackage{scrhack}
+%\usepackage{scrhack}
 
 
 % hyperref without ugly boxes around links
@@ -30,5 +49,12 @@
 % headers and footers
 \usepackage{scrlayer-scrpage}
 
+\usepackage{listings}
+
 \input{macros/cvss/cvss}
 \input{macros/misc}
+
+\usepackage{caption}
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+

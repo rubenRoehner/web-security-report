@@ -2,33 +2,48 @@
 
 \input{macros/setup}
 
-\subject{\addlogo{3cm}{images/yourlogo.png} Pentesting Company X}
-\title{Security assesment of Product Y}
-\subtitle{}
+
+\subject{\addlogo{4cm}{images/hse_logo.png} Esslingen University of Applied Sciences}
+\title{Security Report}
+\subtitle{Vorlesung Web Security}
 
 \author{
-  Ann Chovey\\
-  \texttt{ann.chovey@example.com}\\
-  \and
-  Hazel Nutt\\
-  \texttt{hazel.nutt@example.com}\\
+    Ruben Röhner\\
+    \texttt{Matrikelnr.: 0778062}\\\\
+    Dozent\\
+    Sebastian Auwärter
 }
 
-\date{May 2022}
+\date{Februar 2025}
 
-\headleft{Security assesment of Product Y}
-\headright{Pentesting Company X}
+\headleft{Web Security Report}
+\headright{Ruben Röhner}
 
 \begin{document}
 
 \maketitle
 \tableofcontents
 
-\input{chapters/01-overview}
-\input{chapters/02-summary}
-\input{chapters/03-findings}
-\input{chapters/04-testing}
+\input{chapters/01-summary}
+\input{chapters/02-executive_summary}
+\input{chapters/03-pedikure_salon}
+\input{chapters/04_gruener_drache}
+\input{chapters/05_sams_gaertnerboard}
+\input{chapters/06_nextcloud}
+\input{chapters/07_pilzboard}
+\input{chapters/08_auktionshaus}
+\input{chapters/09_pfeifenkraut_shop}
+\input{chapters/10_butterbluem}
+\input{chapters/11_taenzelndes_pony}
+\input{chapters/12_dns_auenland}
 
 \input{citations}
+\renewcommand{\listfigurename}{Abbildungsverzeichnis}
+\listoffigures
+
+\lstlistoflistings
+
+\input{appendix}
+
 
 \end{document}

