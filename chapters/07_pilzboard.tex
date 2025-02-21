@@ -17,23 +17,17 @@
 
 \subsection*{Proof of concept}
 Über den Footer der Anwendung kann herausgefunden werden, dass es sich um eine Drupal Webanwendung handelt. Die Webanwendung verwendet Drupal in der Version 8, welche eine veraltete Versionen ist und Sicherheitslücken aufweist.
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\linewidth]{images/proofs/05_pilzboard_proof.png}
-    \caption{Proof für die Webanwendung Maggot's Pilzboard}
-    \label{fig:05_pilzboard_proof}
-\end{figure}
 
 \subsection*{Empfehlungen}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
-\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+\cvssdescription{Eine bekannte Sicherheitslücke in Drupal führt zu einer Remote Code Execution auf dem Webserver.}
 
 \section{\makecvssbadge Maggot's Pilzboard: Remote Code Execution}
 \cvssaddtosummary{Maggot's Pilzboard: Remote Code Execution}
 
 \subsection*{Proof of concept}
-Über einen bekannten Exploit mit der CVE Nummer CVE-2018-7600 kann Code auf dem kompromitiertem Drupal System ausgeführt werden. Dies ermöglicht es direkt eine Reverse Shell zu dem System herstellen zu können. Der HTTP Request des Exploits kann mit einem Tool wie der Burpsuite intercepted und die Payload angepasst werden. Die Playoad zum Starten einer Reverse Shell ist in folgendem Listing aufgeführt:
+Über einen bekannten Exploit mit der CVE Nummer CVE-2018-7600 kann Code auf dem kompromitiertem Drupal System ausgeführt werden. Dies ermöglicht es direkt eine Reverse Shell zu dem System herstellen zu können. Der HTTP Request des Exploits kann mit einem Tool wie der Burpsuite intercepted und die Payload angepasst werden. Die Playoad zum Starten einer Reverse Shell ist in folgendem Listing aufgeführt. Ein Beweisscreenshot ist in \autoref{fig:05_pilzboard_proof} abgegbildet.
 
 
 \begin{listing}[!ht]
@@ -46,5 +40,15 @@ Host: 10.0.68.122
 \caption{Reverse Shell}
 \label{listing:pilzboard:reverseshell}
 \end{listing}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/proofs/05_pilzboard_proof.png}
+    \caption{Proof für die Webanwendung Maggot's Pilzboard}
+    \label{fig:05_pilzboard_proof}
+\end{figure}
 
 \subsection*{Empfehlungen}
+\begin{itemize}
+    \item Drupal-Aktualisieren: Die Drupal-Version sollte unbedingt auf eine Version aktualisiert werden, welche den Patch für diese Sicherheitslücke beinhaltet.
+    \item Regelmäßige Sicherheitsupdates: Sie sollten regelmäßig prüfen, ob es für die verwendeten Systeme Sicherheitsupdates gibt und wenn ja sollten diese zeitnah installiert werden, um ähnliche vorfälle zu verhindern.
+\end{itemize}

