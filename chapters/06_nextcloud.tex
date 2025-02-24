@@ -69,15 +69,15 @@ Nach der Anmeldung mit einem der Benutzer kann der JWT-Token abgefangen werden, 
 \end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
-\cvssdescription{Über den Dateiupload der Nextcloud-Anwendung konnte eine Web Shell hochgeladen werden, die durch aktiviertes Directory Listing und mangelnde Zugriffsbeschränkungen ausgeführt werden konnte.}
+\cvssdescription{Über den Dateiupload der Nextcloud-Anwendung konnte eine Webshell hochgeladen werden, die durch aktiviertes Directory Listing und mangelnde Zugriffsbeschränkungen ausgeführt werden konnte.}
 
 \section{\makecvssbadge Remote Code Execution (RCE)}
 \cvssaddtosummary{Tuk Nextcloud: Remote Code Execution (RCE)} 
 
 \subsection*{Proof of concept}
-Mit einem der erhaltenen Benutzeraccounts kann sich erneut in die Webanwendung eingeloggt werden. Anschließend kann über den integrierten Dateiupload der Nextcloud-Anwendung eine PHP-Shell hochgeladen werden. Über das aktivierte Directory Listing kann das Dateiverzeichnis des Nutzers gefunden werden. In diesem Verzeichnis befindet sich die hochgeladene Web Shell (z.B. unter \url{http://tuk-nextcloud.auenland/data/heiderose/files/webshell_password.php}). Wird diese URL geöffnet, öffnet sich die Web Shell und es können Systemkommandos auf dem Web Server ausgeführt werden. 
+Mit einem der erhaltenen Benutzeraccounts kann sich erneut in die Webanwendung eingeloggt werden. Anschließend kann über den integrierten Dateiupload der Nextcloud-Anwendung eine PHP-Shell hochgeladen werden. Über das aktivierte Directory Listing kann das Dateiverzeichnis des Nutzers gefunden werden. In diesem Verzeichnis befindet sich die hochgeladene Webshell (z.B. unter \url{http://tuk-nextcloud.auenland/data/heiderose/files/webshell_password.php}). Wird diese URL geöffnet, öffnet sich die Webshell und es können Systemkommandos auf dem Web Server ausgeführt werden. 
 
-Nun kann auf dem Angreifersystem ein Netcat-Listener mit dem Befehl aus \autoref{listing:netcat-listener} gestartet werden. Anschließend kann eine Reverse Shell über die hochgeladene Web Shell mit dem Befehl aus \autoref{listing:bash-reverse-shell} gestartet werden. Ein Nachweis ist in \autoref{fig:04_nextcloud_proof} dargestellt.
+Nun kann auf dem Angreifersystem ein Netcat-Listener mit dem Befehl aus \autoref{listing:netcat-listener} gestartet werden. Anschließend kann eine Reverse Shell über die hochgeladene Webshell mit dem Befehl aus \autoref{listing:bash-reverse-shell} gestartet werden. Ein Nachweis ist in \autoref{fig:04_nextcloud_proof} dargestellt.
 
 \begin{figure}[!ht]
     \centering
@@ -88,6 +88,6 @@ Nun kann auf dem Angreifersystem ein Netcat-Listener mit dem Befehl aus \autoref
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Sichere Dateiuploads: Upload-Verzeichnisse sollten so konfiguriert werden, dass darin hochgeladene Dateien nicht als PHP-Code ausgeführt werden können (z.B. durch entsprechende Serverkonfiguration oder mittels .htaccess-Regeln) (Siehe \cite{owaspFileUpload}).
+    \item Sichere Dateiuploads: Upload-Verzeichnisse sollten so konfiguriert werden, dass darin hochgeladene Dateien nicht als PHP-Code ausgeführt werden können (z.B. durch entsprechende Serverkonfiguration oder mittels .htaccess-Regeln) (siehe \cite{owaspFileUpload}).
 \end{itemize}
 

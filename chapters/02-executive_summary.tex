@@ -2,22 +2,22 @@
 \chapter{Executive Summary}
 Im Rahmen der Vorlesung Web Security an der Hochschule Esslingen wurde ein Penetration Test auf 10 Systemen in einer Laborumgebung durchgeführt. Diese Systeme, darunter acht Webserver, ein DNS-Server und ein Client-System, befinden sich in den lokalen Netzen \url{10.0.72.0} und \url{10.0.68.0}. Im Rahmen des Penetrationstests wurden auf allen untersuchten Systemen schwerwiegende Sicherheitsprobleme festgestellt. Viele Sicherheitslücken basieren auf unzureichenden Passwortrichtlinien, fehlender oder schwacher Validierung von Benutzereingaben sowie veralteten und unsicheren Systemkomponenten.\\
 
-Die Webanwendung \textit{Pediküre Salon Stolzfuß} wies
+\noindent Die Webanwendung \textit{Pediküre Salon Stolzfuß} weist mehrere Schwachstellen auf, darunter die Veröffentlichung von Systeminformationen, unzureichende Passwortrichtlinien und fehlende Überprüfung von Benutzereingaben. Dadurch ist es möglich, administrativen Zugriff auf den Webserver zu erlangen.
 
-Die Webanwendung \textit{Grüner Drache} wies
+\noindent Die Webanwendung \textit{Grüner Drache} weist vor allem Probleme bei der Validierung von Benutzereingaben auf, wodurch administrativer Zugriff auf die Webanwendung und den gesamten Webserver möglich ist.
 
-Die Webanwendung \textit{Sam's Gärtnerboard} wies
+\noindent Die Webanwendung \textit{Sam's Gärtnerboard} weist Schwachstellen im Zusammenhang mit schwachen Passwortrichtlinien und fehlender Überprüfung von hochgeladenen Dateien auf. Dadurch ist es möglich, administrativen Zugriff auf das gesamte System zu erlangen.
 
-Die Webanwendung \textit{Tuk Nextcloud} wies
+\noindent Die Webanwendung \textit{Tuk Nextcloud} weist schwerwiegende Schwachstellen auf. Mangelnde Beschränkung der Zugriffsrechte, schwache Passwortrichtlinien und fehlende Validierung der hochgeladenen Dateien ermöglichen auch hier administrativen Zugriff auf das gesamte System.
 
-Die Webanwendung \textit{Maggot's Pilzboard} wies
+\noindent Die Webanwendung \textit{Maggot's Pilzboard} weist Schwachstellen im verwendeten CMS-System auf, wodurch bekannte Sicherheitslücken ausgenutzt werden können, um administrativen Zugriff auf das gesamte System zu erlangen.
 
-Die Webanwendung \textit{Auktionshaus Auenland} wies
+\noindent Die Webanwendung \textit{Auktionshaus Auenland} weist Schwachstellen beim Upload von Dateien auf, die unzureichend verifiziert werden und somit administrativen Zugriff auf das gesamte System ermöglichen können.
 
-Die Webanwendung \textit{Tobold's Pfeifenkrautshop} wies
+\noindent Die Webanwendung \textit{Tobold's Pfeifenkrautshop} weist Schwachstellen im verwendeten CMS-System auf, die durch Ausnutzung bekannter Sicherheitslücken zu administrativen Zugriffen auf das gesamte System führen können.
 
-Das System \textit{Butterblume's Client} wies
+\noindent Das System \textit{Butterblume's Client} weist Schwachstellen in Form eines unischeren Synchronisationsskripts auf, das so modifiziert werden kann, dass administrativer Zugriff auf das gesamte System erlangt werden kann.
 
-Die Webanwendung \textit{Zum Tänzelnden Pony} wies
+\noindent Die Webanwendung \textit{Zum Tänzelnden Pony} weist ebenfalls Schwachstellen in Form einer unzureichenden Überprüfung von Benutzereingaben und hochgeladenen Dateien auf. Dadurch ist auch hier ein administrativer Zugriff auf das gesamte System möglich.
 
-Der DNS Server \textit{Auenland DNS} wies
+\noindent Der DNS-Server \textit{Auenland DNS} verwendet schwache Anmeldedaten, die ausspioniert werden können und somit administrativen Zugriff auf das gesamte System ermöglichen.

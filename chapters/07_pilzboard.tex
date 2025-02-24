@@ -1,5 +1,7 @@
 \pagebreak
 \chapter{Maggot's Pilzboard}
+Die Webanwendung \textit{Maggot's Pilzboard} ist erreichbar unter der IP-Adresse \url{http://10.0.68.122}. Auf dieser Webanwendung können sich die Nutzer zum Thema Pilze informieren. Ein Screenshot der Startseite ist in \autoref{fig:05_pilzboard} zu sehen.
+
 
 \vfill
 \begin{figure}[!ht]
@@ -21,6 +23,9 @@
 Über den Footer der Anwendung kann herausgefunden werden, dass es sich um eine Drupal Webanwendung handelt. Die Webanwendung verwendet Drupal in der Version 8, welche eine veraltete Versionen ist und Sicherheitslücken aufweist.
 
 \subsection*{Empfehlungen}
+\begin{itemize}
+    \item Systeminformationen verbergen: Vermeiden Sie es, Systeminformationen, wie z.B. das verwendete CMS-System und dessen Versionsnummer, auf der Webanwendung anzuzeigen. Dies erleichtert Angriffe auf diese Systeme, da so gezielt nach bekannten Schwachstellen gesucht werden kann.
+\end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
 \cvssdescription{Eine bekannte Sicherheitslücke in Drupal führt zu einer Remote Code Execution auf dem Webserver.}
@@ -51,6 +56,6 @@ Host: 10.0.68.122
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Drupal-Aktualisieren: Die Drupal-Version sollte unbedingt auf eine Version aktualisiert werden, welche den Patch für diese Sicherheitslücke beinhaltet (siehe \cite{owaspVulnerableDependency}).
-    \item Regelmäßige Sicherheitsupdates: Sie sollten regelmäßig prüfen, ob es für die verwendeten Systeme Sicherheitsupdates gibt und wenn ja sollten diese zeitnah installiert werden, um ähnliche vorfälle zu verhindern (siehe \cite{owaspVulnerableDependency}).
+    \item Drupal aktualisieren: Drupal sollte unbedingt auf eine Version aktualisiert werden, die den Patch für diese Sicherheitslücke enthält (siehe \cite{owaspVulnerableDependency}).
+    \item Regelmäßige Sicherheitsupdates: Sie sollten regelmäßig prüfen, ob es für die verwendeten Systeme Sicherheitsupdates gibt und wenn ja sollten diese zeitnah installiert werden, um ähnliche Vorfälle zu verhindern (siehe \cite{owaspVulnerableDependency}).
 \end{itemize}

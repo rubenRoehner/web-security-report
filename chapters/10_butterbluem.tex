@@ -11,8 +11,8 @@ Die Anmeldedaten für den Account \textit{butterbluem} in der Webanwendung Nextc
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Das Passwort für den Nutzer \textit{butterbluem} sollte umgehend geändert werden und durch eine neues und sicheres Passwort ersetzt werden (Siehe \cite{bsi_passwords}).
-    \item Multi-Faktor-Authentifizierung (MFA): Durch Verwendung von MFA Methoden wird es Angreiferen deutlich erschwert Zugang zu einem passwortgeschützten Account zu erlangen (Siehe \cite{owaspAuthenticationOWASP}).
+    \item Das Passwort für den Nutzer \textit{butterbluem} sollte umgehend geändert werden und durch eine neues und sicheres Passwort ersetzt werden (siehe \cite{bsi_passwords}).
+    \item Multi-Faktor-Authentifizierung (MFA): Durch Verwendung von MFA Methoden wird es Angreiferen deutlich erschwert Zugang zu einem passwortgeschützten Account zu erlangen (siehe \cite{owaspAuthenticationOWASP}).
 \end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
@@ -45,7 +45,6 @@ rsync -avP /mnt/backup/* /home/butterbluem/
 \end{figure}
 
 \subsection*{Empfehlungen}
-\begin{itemize}
-    \item Das Bash-Skript zur Synchronisierung des Home-Verzeichnisses kann durch eine digitale Signatur oder ein Hash abgesichert werden. Dadurch können Änderungen an dem Skript erkannt werden und das Skript dadurch abgebrochen werden.
-    \item Mit Firewall-Regeln können außerdem Reverse-Shell Verbindungen unterbunden werden.
+\begin{itemize}   
+    \item Dateien verifizieren: Das Bash-Skript zur Synchronisation des Home-Verzeichnisses kann mit einer digitalen Signatur oder einem Hash gesichert werden. Dadurch können Änderungen am Skript erkannt und das Skript abgebrochen werden.
 \end{itemize}

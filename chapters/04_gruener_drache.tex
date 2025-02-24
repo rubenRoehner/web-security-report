@@ -23,8 +23,8 @@ Mit Hilfe einer SQL-Injection im Anmeldeformular der Webanwendung kann ein Zugri
 
 \subsection*{Empfehlungen} 
 \begin{itemize}
-    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern (Siehe \cite{owaspInputValidation}).
-    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden (Siehe \cite{owaspSQLInjectionPrevention}).
+    \item Eingabevalidierung: Validieren und escapen Sie alle Benutzereingaben, um Injection-Angriffe zu verhindern (siehe \cite{owaspInputValidation}).
+    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden (siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
@@ -36,7 +36,7 @@ Mit Hilfe einer SQL-Injection im Anmeldeformular der Webanwendung kann ein Zugri
 \subsection*{Proof of concept}
 Zuerst muss ein Benutzer eine Bestellung aufgeben, die dann vom Admin bestätigt werden kann. Anschließend muss die Bestellung durch den Benutzer storniert werden, wobei ein unsicheres PHP-Skript ausgeführt wird. Der initiale HTTP-Post kann abgefangen und die Payload dieser Nachricht so verändert werden, dass eine WebShell mit dem SQL-Befehl hochgeladen werden kann. Die modifizierte Payload mit der Union-Based SQL Injection ist in der \autoref{listing:drache:webshell} zu finden. 
 
-Die hochgeladene WebShell ist unter der Domain \texttt{http://10.0.68.105/shell5.php} erreichbar. Über den Post-Parameter \texttt{cmd} können nun Befehle auf dem Webserver ausgeführt werden. Dadurch kann eine PHP-Reverse-Shell erzeugt werden, die dem Angreifer vollen Zugriff über den Webserver ermöglicht. Für diese Reverse Shell muss zunächst ein Netcat-Listener auf dem Angreifer-System gestartet werden (Siehe \autoref{listing:netcat-listener}). Danach kann über die Webshell die Reverse Shell initiert werden, der HTTP-Request dazu befindet sich in \autoref{listing:drache:reverse-shell}.  Ein Nachweis ist in \autoref{fig:02_gruener_drache_proof} dargestellt.
+Die hochgeladene Webshell ist unter der URL \texttt{http://10.0.68.105/shell5.php} erreichbar. Über den Post-Parameter \texttt{cmd} können nun Befehle auf dem Webserver ausgeführt werden. Dadurch kann eine PHP Reverse Shell erzeugt werden, die dem Angreifer vollen Zugriff über den Webserver ermöglicht. Für diese Reverse Shell muss zunächst ein Netcat-Listener auf dem Angreifer-System gestartet werden (siehe \autoref{listing:netcat-listener}). Danach kann über die Webshell die Reverse Shell initiiert werden, der HTTP-Request dazu befindet sich in \autoref{listing:drache:reverse-shell}. Ein Nachweis ist in \autoref{fig:02_gruener_drache_proof} dargestellt.
 
 \begin{listing}[!ht]
 \begin{minted}{bash}
@@ -59,8 +59,6 @@ Host: 10.0.68.105
 \label{listing:drache:reverse-shell}
 \end{listing}
 
-
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth]{images/proofs/02_gruener_drache_proof.png}
@@ -70,6 +68,6 @@ Host: 10.0.68.105
 
 \subsection*{Empfehlungen} 
 \begin{itemize}
-    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern (Siehe \cite{owaspInputValidation}).
-    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden (Siehe \cite{owaspSQLInjectionPrevention}).
+    \item Eingabevalidierung: Validieren und escapen Sie alle Benutzereingaben, um Injection-Angriffe zu verhindern (siehe \cite{owaspInputValidation}).
+    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden (siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}
